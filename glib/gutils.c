@@ -2113,7 +2113,7 @@ g_format_size_full (guint64          size,
       if (size < KIBIBYTE_FACTOR)
         {
           g_string_printf (string,
-                           g_dngettext(GETTEXT_PACKAGE, "%u byte", "%u bytes", (guint) size),
+                           dngettext(GETTEXT_PACKAGE, "%u byte", "%u bytes", (guint) size),
                            (guint) size);
           flags &= ~G_FORMAT_SIZE_LONG_FORMAT;
         }
@@ -2140,7 +2140,7 @@ g_format_size_full (guint64          size,
       if (size < KILOBYTE_FACTOR)
         {
           g_string_printf (string,
-                           g_dngettext(GETTEXT_PACKAGE, "%u byte", "%u bytes", (guint) size),
+                           dngettext(GETTEXT_PACKAGE, "%u byte", "%u bytes", (guint) size),
                            (guint) size);
           flags &= ~G_FORMAT_SIZE_LONG_FORMAT;
         }
@@ -2197,7 +2197,7 @@ g_format_size_full (guint64          size,
       gchar *formatted_number;
 
       /* Translators: the %s in "%s bytes" will always be replaced by a number. */
-      translated_format = g_dngettext(GETTEXT_PACKAGE, "%s byte", "%s bytes", plural_form);
+      translated_format = dngettext(GETTEXT_PACKAGE, "%s byte", "%s bytes", plural_form);
       /* XXX: Windows doesn't support the "'" format modifier, so we
        * must not use it there.  Instead, just display the number
        * without separation.  Bug #655336 is open until a solution is
@@ -2246,7 +2246,7 @@ gchar *
 g_format_size_for_display (goffset size)
 {
   if (size < (goffset) KIBIBYTE_FACTOR)
-    return g_strdup_printf (g_dngettext(GETTEXT_PACKAGE, "%u byte", "%u bytes",(guint) size), (guint) size);
+    return g_strdup_printf (dngettext(GETTEXT_PACKAGE, "%u byte", "%u bytes",(guint) size), (guint) size);
   else
     {
       gdouble displayed_size;
