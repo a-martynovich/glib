@@ -134,7 +134,8 @@ target_include_directories(glib PUBLIC
     ${LIBFFI_INCLUDE_DIR}
 )
 
-target_compile_definitions(glib PRIVATE
+target_compile_definitions(glib
+PRIVATE
     -DHAVE_CONFIG_H
     -DGLIB_COMPILATION
     -DDLL_EXPORT
@@ -150,6 +151,10 @@ target_compile_definitions(glib PRIVATE
     -DSUPPORT_UCP
     -DSUPPORT_UTF
     -DSUPPORT_UTF8
+)
+
+target_compile_options(glib PUBLIC
+    -FI msvc_recommended_pragmas.h
 )
 
 target_link_libraries(glib PUBLIC
@@ -213,3 +218,33 @@ target_link_libraries(glib-genmarshal PUBLIC
     glib
     gobject
 )
+
+file(STRINGS gobject/gmarshal.list Contents)
+unset(ModifiedContents)
+foreach(Line ${Contents})
+  if("${Line}" MATCHES "^[A-Z]")
+    message(${Line})
+    string(REPLACE
+        ":"
+        "__"
+        Line ${Line})
+    string(REPLACE
+        ","
+        "_"
+        Line ${Line})
+    message(${Line})
+    set(ModifiedContents "${ModifiedContents}\"g_cclosure_marshal_${Line}\",\n")
+  endif()
+endforeach()
+file(WRITE ${CMAKE_BINARY_DIR}/gmarshal.strings ${ModifiedContents})
+
+# gmarshal.strings : gmarshal.list
+#       perl marshal-genstrings.pl > gmarshal.strings
+# gmarshal.h : gmarshal.list glib-genmarshal.exe
+#	echo #ifndef __G_MARSHAL_H__ > xgen-gmh
+#	echo #define __G_MARSHAL_H__ >> xgen-gmh
+#	glib-genmarshal --nostdinc --prefix=g_cclosure_marshal gmarshal.list --header >> xgen-gmh
+#	echo #endif /* __G_MARSHAL_H__ */ >> xgen-gmh
+#	copy xgen-gmh gmarshal.h
+# gmarshal.c: gmarshal.list gmarshal.h glib-genmarshal.exe
+#	glib-genmarshal --nostdinc --prefix=g_cclosure_marshal gmarshal.list --body > gmarshal.c
