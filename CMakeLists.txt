@@ -117,12 +117,12 @@ add_library(glib SHARED
 
 find_path(LIBFFI_INCLUDE_DIR
     NAMES ffi.h
-    PATHS ${LIBFFI_DIR}
+    PATHS ${LIBFFI_DIR}/include
 )
 
 find_library(FFI_LIB
     NAMES ffi
-    PATHS ${LIBFFI_DIR}
+    PATHS ${LIBFFI_DIR}/lib
 )
 message(${FFI_LIB})
 
@@ -238,13 +238,228 @@ foreach(Line ${Contents})
 endforeach()
 file(WRITE ${CMAKE_BINARY_DIR}/gmarshal.strings ${ModifiedContents})
 
-# gmarshal.strings : gmarshal.list
-#       perl marshal-genstrings.pl > gmarshal.strings
-# gmarshal.h : gmarshal.list glib-genmarshal.exe
-#	echo #ifndef __G_MARSHAL_H__ > xgen-gmh
-#	echo #define __G_MARSHAL_H__ >> xgen-gmh
-#	glib-genmarshal --nostdinc --prefix=g_cclosure_marshal gmarshal.list --header >> xgen-gmh
-#	echo #endif /* __G_MARSHAL_H__ */ >> xgen-gmh
-#	copy xgen-gmh gmarshal.h
-# gmarshal.c: gmarshal.list gmarshal.h glib-genmarshal.exe
-#	glib-genmarshal --nostdinc --prefix=g_cclosure_marshal gmarshal.list --body > gmarshal.c
+if(BUILD_GIO)
+    add_library(gio SHARED
+        gio/gaction.c
+        gio/gactiongroup.c
+        gio/gactiongroupexporter.c
+        gio/gactionmap.c
+        gio/gappinfo.c
+        gio/gapplication.c
+        gio/gapplicationcommandline.c
+        gio/gapplicationimpl-dbus.c
+        gio/gasynchelper.c
+        gio/gasyncinitable.c
+        gio/gasyncresult.c
+        gio/gbufferedinputstream.c
+        gio/gbufferedoutputstream.c
+        gio/gbytesicon.c
+        gio/gcancellable.c
+        gio/gcharsetconverter.c
+        gio/gcontenttype-win32.c
+        gio/gcontextspecificgroup.c
+        gio/gconverter.c
+        gio/gconverterinputstream.c
+        gio/gconverteroutputstream.c
+        gio/gcredentials.c
+        gio/gdatainputstream.c
+        gio/gdataoutputstream.c
+        gio/gdbusactiongroup.c
+        gio/gdbusaddress.c
+        gio/gdbusauth.c
+        gio/gdbusauthmechanismanon.c
+        gio/gdbusauthmechanism.c
+        gio/gdbusauthmechanismexternal.c
+        gio/gdbusauthmechanismsha1.c
+        gio/gdbusauthobserver.c
+        gio/gdbusconnection.c
+        gio/gdbusdaemon.c
+        gio/gdbus-daemon-generated.c
+        gio/gdbuserror.c
+        gio/gdbusinterface.c
+        gio/gdbusinterfaceskeleton.c
+        gio/gdbusintrospection.c
+        gio/gdbusmenumodel.c
+        gio/gdbusmessage.c
+        gio/gdbusmethodinvocation.c
+        gio/gdbusnameowning.c
+        gio/gdbusnamewatching.c
+        gio/gdbusobject.c
+        gio/gdbusobjectmanager.c
+        gio/gdbusobjectmanagerclient.c
+        gio/gdbusobjectmanagerserver.c
+        gio/gdbusobjectproxy.c
+        gio/gdbusobjectskeleton.c
+        gio/gdbusprivate.c
+        gio/gdbusproxy.c
+        gio/gdbusserver.c
+        gio/gdbusutils.c
+        gio/gdelayedsettingsbackend.c
+        gio/gdrive.c
+        gio/gdummyfile.c
+        gio/gdummyproxyresolver.c
+        gio/gdummytlsbackend.c
+        gio/gemblem.c
+        gio/gemblemedicon.c
+        gio/gfdonotificationbackend.c
+        gio/gfileattribute.c
+        gio/gfile.c
+        gio/gfiledescriptorbased.c
+        gio/gfileenumerator.c
+        gio/gfileicon.c
+        gio/gfileinfo.c
+        gio/gfileinputstream.c
+        gio/gfileiostream.c
+        gio/gfilemonitor.c
+        gio/gfilenamecompleter.c
+        gio/gfileoutputstream.c
+        gio/gfilterinputstream.c
+        gio/gfilteroutputstream.c
+        gio/ggtknotificationbackend.c
+        gio/ghttpproxy.c
+        gio/gicon.c
+        gio/ginetaddress.c
+        gio/ginetaddressmask.c
+        gio/ginetsocketaddress.c
+        gio/ginitable.c
+        gio/ginputstream.c
+        gio/gioenumtypes.c
+        gio/gioerror.c
+        gio/giomodule.c
+        gio/gioscheduler.c
+        gio/giostream.c
+        gio/gkeyfilesettingsbackend.c
+        gio/glistmodel.c
+        gio/gliststore.c
+        gio/gloadableicon.c
+        gio/glocalfile.c
+        gio/glocalfileenumerator.c
+        gio/glocalfileinfo.c
+        gio/glocalfileinputstream.c
+        gio/glocalfileiostream.c
+        gio/glocalfilemonitor.c
+        gio/glocalfileoutputstream.c
+        gio/glocalvfs.c
+        gio/gmemoryinputstream.c
+        gio/gmemoryoutputstream.c
+        gio/gmemorysettingsbackend.c
+        gio/gmenu.c
+        gio/gmenuexporter.c
+        gio/gmenumodel.c
+        gio/gmount.c
+        gio/gmountoperation.c
+        gio/gnativevolumemonitor.c
+        gio/gnetworkaddress.c
+        gio/gnetworking.c
+        gio/gnetworkmonitorbase.c
+        gio/gnetworkmonitor.c
+        gio/gnetworkservice.c
+        gio/gnotificationbackend.c
+        gio/gnotification.c
+        gio/gnullsettingsbackend.c
+        gio/goutputstream.c
+        gio/gpermission.c
+        gio/gpollableinputstream.c
+        gio/gpollableoutputstream.c
+        gio/gpollableutils.c
+        gio/gpollfilemonitor.c
+        gio/gpropertyaction.c
+        gio/gproxyaddress.c
+        gio/gproxyaddressenumerator.c
+        gio/gproxy.c
+        gio/gproxyresolver.c
+        gio/gregistrysettingsbackend.c
+        gio/gremoteactiongroup.c
+        gio/gresolver.c
+        gio/gresource.c
+        gio/gresourcefile.c
+        gio/gseekable.c
+        gio/gsettingsbackend.c
+        gio/gsettings.c
+        gio/gsettings-mapping.c
+        gio/gsettingsschema.c
+        gio/gsimpleaction.c
+        gio/gsimpleactiongroup.c
+        gio/gsimpleasyncresult.c
+        gio/gsimpleiostream.c
+        gio/gsimplepermission.c
+        gio/gsimpleproxyresolver.c
+        gio/gsocketaddress.c
+        gio/gsocketaddressenumerator.c
+        gio/gsocket.c
+        gio/gsocketclient.c
+        gio/gsocketconnectable.c
+        gio/gsocketconnection.c
+        gio/gsocketcontrolmessage.c
+        gio/gsocketinputstream.c
+        gio/gsocketlistener.c
+        gio/gsocketoutputstream.c
+        gio/gsocketservice.c
+        gio/gsocks4aproxy.c
+        gio/gsocks4proxy.c
+        gio/gsocks5proxy.c
+        gio/gsrvtarget.c
+        gio/gsubprocess.c
+        gio/gsubprocesslauncher.c
+        gio/gtask.c
+        gio/gtcpconnection.c
+        gio/gtcpwrapperconnection.c
+        gio/gtestdbus.c
+        gio/gthemedicon.c
+        gio/gthreadedresolver.c
+        gio/gthreadedsocketservice.c
+        gio/gtlsbackend.c
+        gio/gtlscertificate.c
+        gio/gtlsclientconnection.c
+        gio/gtlsconnection.c
+        gio/gtlsdatabase.c
+        gio/gtlsfiledatabase.c
+        gio/gtlsinteraction.c
+        gio/gtlspassword.c
+        gio/gtlsserverconnection.c
+        gio/gunionvolumemonitor.c
+        gio/gvdb/gvdb-reader.c
+        gio/gvfs.c
+        gio/gvolume.c
+        gio/gvolumemonitor.c
+        gio/gwin32appinfo.c
+        gio/gwin32inputstream.c
+        gio/gwin32mount.c
+        gio/gwin32outputstream.c
+        gio/gwin32volumemonitor.c
+        gio/gzlibcompressor.c
+        gio/gzlibdecompressor.c
+        gio/thumbnail-verify.c
+        gio/win32/gwin32filemonitor.c
+        gio/win32/gwin32fsmonitorutils.c
+        gio/win32/gwinhttpfile.c
+        gio/win32/gwinhttpfileinputstream.c
+        gio/win32/gwinhttpfileoutputstream.c
+        gio/win32/gwinhttpvfs.c
+    )
+
+    target_link_libraries(gio PUBLIC
+        glib
+    )
+
+    target_compile_definitions(gio PRIVATE
+        -DGIO_COMPILATION
+    )
+
+    target_include_directories(gio PRIVATE
+        gio
+        gmodule
+    )
+
+    configure_file(gio/gnetworking.h.win32 ${CMAKE_BINARY_DIR}/gio/gnetworking.h)
+    configure_file(gio/gnetworking.h.win32 ${CMAKE_BINARY_DIR}/gnetworking.h)
+endif(BUILD_GIO)
+
+install(TARGETS glib gobject gmodule
+    RUNTIME DESTINATION bin
+    LIBRARY DESTINATION lib
+    ARCHIVE DESTINATION lib
+)
+install(FILES glib/glib.h ${CMAKE_BINARY_DIR}/glibconfig.h
+    DESTINATION include
+)
