@@ -455,11 +455,126 @@ if(BUILD_GIO)
     configure_file(gio/gnetworking.h.win32 ${CMAKE_BINARY_DIR}/gnetworking.h)
 endif(BUILD_GIO)
 
-install(TARGETS glib gobject gmodule
+install(TARGETS glib gobject gmodule glib-genmarshal
     RUNTIME DESTINATION bin
     LIBRARY DESTINATION lib
     ARCHIVE DESTINATION lib
 )
-install(FILES glib/glib.h ${CMAKE_BINARY_DIR}/glibconfig.h
-    DESTINATION include
+install(FILES
+    glib/glib-unix.h
+    glib/glib-object.h
+    glib/glib.h
+    glib/glib-autocleanups.h
+    glib/galloca.h
+    glib/garray.h
+    glib/gasyncqueue.h
+    glib/gatomic.h
+    glib/gbacktrace.h
+    glib/gbase64.h
+    glib/gbitlock.h
+    glib/gbookmarkfile.h
+    glib/gbytes.h
+    glib/gcharset.h
+    glib/gchecksum.h
+    glib/gconvert.h
+    glib/gdataset.h
+    glib/gdate.h
+    glib/gdatetime.h
+    glib/gdir.h
+    glib/genviron.h
+    glib/gerror.h
+    glib/gfileutils.h
+    glib/ggettext.h
+    glib/ghash.h
+    glib/ghmac.h
+    glib/ghook.h
+    glib/ghostutils.h
+    glib/gi18n.h
+    glib/gi18n-lib.h
+    glib/giochannel.h
+    glib/gkeyfile.h
+    glib/glist.h
+    glib/gmacros.h
+    glib/gmain.h
+    glib/gmappedfile.h
+    glib/gmarkup.h
+    glib/gmem.h
+    glib/gmessages.h
+    glib/gnode.h
+    glib/goption.h
+    glib/gpattern.h
+    glib/gpoll.h
+    glib/gprimes.h
+    glib/gqsort.h
+    glib/gquark.h
+    glib/gqueue.h
+    glib/grand.h
+    glib/gregex.h
+    glib/gscanner.h
+    glib/gsequence.h
+    glib/gshell.h
+    glib/gslice.h
+    glib/gslist.h
+    glib/gspawn.h
+    glib/gstdio.h
+    glib/gstrfuncs.h
+    glib/gtestutils.h
+    glib/gstring.h
+    glib/gstringchunk.h
+    glib/gthread.h
+    glib/gthreadpool.h
+    glib/gtimer.h
+    glib/gtimezone.h
+    glib/gtrashstack.h
+    glib/gtree.h
+    glib/gtypes.h
+    glib/gunicode.h
+    glib/gurifuncs.h
+    glib/gutils.h
+    glib/gvarianttype.h
+    glib/gvariant.h
+    glib/gversion.h
+    glib/gversionmacros.h
+    glib/gwin32.h
+    glib/gprintf.h
+    gmodule/gmodule.h
+    ${CMAKE_BINARY_DIR}/glibconfig.h
+
+    DESTINATION include/glib
+)
+
+install(FILES
+    glib/deprecated/gallocator.h
+    glib/deprecated/gcache.h
+    glib/deprecated/gcompletion.h
+    glib/deprecated/gmain.h
+    glib/deprecated/grel.h
+    glib/deprecated/gthread.h
+
+    DESTINATION include/glib/deprecated
+)
+
+install(FILES
+    gobject/gobject-autocleanups.h
+    gobject/glib-types.h
+    gobject/gbinding.h
+    gobject/gboxed.h
+    gobject/gclosure.h
+    gobject/genums.h
+    gobject/gmarshal.h
+    gobject/gobject.h
+    gobject/gparam.h
+    gobject/gparamspecs.h
+    gobject/gsignal.h
+    gobject/gsourceclosure.h
+    gobject/gtype.h
+    gobject/gtypemodule.h
+    gobject/gtypeplugin.h
+    gobject/gvalue.h
+    gobject/gvaluearray.h
+    gobject/gvaluecollector.h
+    gobject/gvaluetypes.h
+    gobject/gobjectnotifyqueue.c
+
+    DESTINATION include/gobject
 )
